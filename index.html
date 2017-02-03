@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="./jquery-3.1.1.min.js" charset="utf-8"></script>
+    <title>game</title>
+    <style media="screen">
+      #canvas {
+        background-color: rgb(180, 180, 180);
+      }
+    </style>
+    <script type="text/javascript">
+      $(function () {
+        const canvas = $("#canvas");
+        const context = canvas[0].getContext("2d");
+        var x = 100;
+        var y = 100;
+        var speed = 5;
+        var rand;
+        var mouseX;
+        var mouseY;
+
+        context.fillStyle = "red";
+
+        var loop = setInterval(function () {
+          context.clearRect(0, 0, canvas[0].width, canvas[0].height);
+          rand = Math.floor(Math.random() * 3);
+          if (rand == 0){
+            x += speed;
+          }else if (rand == 1) {
+            x -= speed;
+          }
+          rand = Math.floor(Math.random() * 3);
+          if (rand == 0) {
+            y += speed;
+          }else if (rand == 1) {
+            y -= speed;
+          }
+
+          if (x > canvas[0].width){
+            x = 0;
+          }else if (x < 0) {
+            x = canvas[0].width;
+          }
+
+          if (y > canvas[0].height){
+            y = 0;
+          }else if (y < 0) {
+            y = canvas[0].height;
+          }
+
+          context.fillRect(x, y, 4, 4);
+
+          canvas.mousemove(function (event) {
+            mouseX = event.offsetX;
+            mouseY = event.offsetX;
+          })
+
+          canvas.click(function () {
+            if ((x < mouseX) && (x+4 > mouseX)){
+              if ((y < mouseY) && (y+4 > mouseY)){
+                clearInterval(loop);
+                context.font = "40px normal";
+                context.fillText("GAME CLEAR", 50, 50);
+              }
+            }
+          })
+        }, 1000/30);
+      })
+    </script>
+  </head>
+  <body>
+    <canvas id="canvas" width="300" height="300"></canvas>
+  </body>
+</html>
